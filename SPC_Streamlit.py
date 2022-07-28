@@ -15,11 +15,15 @@ st.title("SPC Chart Creator")
 
 st.write("The uploaded file must be saved as a .csv file and be in the following format")
 
-st.write(pd.DataFrame({
+example_df = pd.DataFrame({
     "Month": ["Dec 21", "Jan 22", "Feb 22"],
-    "Data": [50, 65, 0.25, 0.6],
-    "Phase": [1,1,1,2],
-    "Target": [45, 45, 5, 0.2],}))
+    "Data": [50, 65, 70],
+    "Phase": [1,1,2],
+    "Target": [45, 45, 45]})
+    
+example_df.set_index("Month", inplace = True)
+
+st.write(example_df)
 
 st.write("Drag and drop .csv file in correct format")
 
