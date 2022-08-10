@@ -62,7 +62,7 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     
 else:
-    st.warning("No chart has been uploaded")
+    st.warning("No file has been uploaded")
     st.stop()
    
    
