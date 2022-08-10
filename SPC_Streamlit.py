@@ -63,7 +63,7 @@ if uploaded_file is not None:
     
 else:
     st.warning("No chart has been uploaded")
-    st.stop
+    st.stop()
    
    
 #code to use header from .csv if not title has been added
