@@ -62,10 +62,8 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     
 else:
-    name = st.text("Name")
-    if not name:
-        st.warning("No chart has been uploaded")
-        st.stop
+    st.warning("No chart has been uploaded")
+    st.stop
    
    
 #code to use header from .csv if not title has been added
