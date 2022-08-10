@@ -153,7 +153,7 @@ figure_1, ax = plt.subplots()
 
 #plotting lines
 ax.plot(df["Month"], df.iloc[:, 1], marker = "o", markersize = 10, 
-        color = "grey")
+        color = "black")
 ax.plot(df["Month"], df["mean"], color = "grey")
 ax.plot(df["Month"], df["upper_limit"], ls=":", color = "black")
 ax.plot(df["Month"], df["lower_limit"], ls=":", color = "black")
