@@ -20,6 +20,10 @@ example_df = pd.DataFrame({
     "Data": [50, 65, 70],
     "Phase": [1,1,2],
     "Target": [45, 45, 45]})
+
+st.write("The first column has the month, 2nd column the data, in decimal\
+         format for percentages (e.g. 0.5 for 50%), 3rd column has the phase,\
+             and the 4th column a target if there is one.")
     
 example_df.set_index("Month", inplace = True)
 
@@ -58,8 +62,10 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     
 else:
-  st.warning("no file uploaded")
-  st.stop
+    name = st.text("Name")
+    if not name:
+        st.warning("No chart has been uploaded")
+        st.stop
    
    
 #code to use header from .csv if not title has been added
