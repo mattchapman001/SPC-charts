@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.ticker as mtick
 
 
-# df.iloc[:, 1] refers to the 2nd imported column, as this column name can
+# df["plotdata"] refers to the 2nd imported column, as this column name can
 # change the column index is used rather than the column name
 
 #Name of import document 
@@ -21,6 +21,8 @@ import matplotlib.ticker as mtick
 # 4th column = target
 #columns need headers and header of 2nd column is chart title
 df = pd.read_csv("test.csv")
+
+df["plotdata"] = df.iloc[:, 1]
 
 
 #number of months to look for increasing/decreasing or runs above/below mean
@@ -38,7 +40,7 @@ data_format = True
 performance_improvement = False
 
 # calulate mean and create mean line for chart
-df["mean"] = df.iloc[:, 1].groupby(df["phase"]).transform("mean")
+df["mean"] = df["plotdata"].groupby(df["phase"]).transform("mean")
    
 # calculate moving range and add average to dataframe
 moving_ranges = [np.nan]
@@ -48,7 +50,7 @@ for data in range(1, len(df)):
         moving_ranges.append(np.nan)
         i += 1
     else:
-        moving_ranges.append(abs(df.iloc[:, 1][i] - df.iloc[:, 1][i-1]))
+        moving_ranges.append(abs(df["plotdata"][i] - df["plotdata"][i-1]))
         i += 1
 df["moving_range"] = moving_ranges
 
@@ -64,20 +66,23 @@ df["lower_limit"] = df["mean"] - (2.66 * df["moving_range_average"])
 
 
 #finds points outside limits and used to plot
-df["below_lower"] = (df.iloc[:, 1] < df["lower_limit"])
-df["above_upper"] = (df.iloc[:, 1] > df["upper_limit"])
+df["below_lower"] = (df["plotdata"] < df["lower_limit"])
+df["above_upper"] = (df["plotdata"] > df["upper_limit"])
 
 
 
 # code for ID'ing runs above and mean
-df["run_above_mean"] = df.groupby((df.iloc[:, 1] 
+df["run_above_mean"] = df.groupby((df["plotdata"] 
                                   < df["mean"]).cumsum()).cumcount()
 
+df["run_above_mean"] = df.groupby((df["plotdata"] 
+                                  > df["mean"]).cumsum()).cumcount()
 
 df["special_cause_run_above_mean"] = df["run_above_mean"] >= trend_period
 
 
-df["run_below_mean"] = df.groupby((df.iloc[:, 1] 
+
+df["run_below_mean"] = df.groupby((df["plotdata"] 
                                   > df["mean"]).cumsum()).cumcount()
 
 df["special_cause_run_below_mean"] = df["run_below_mean"] >= trend_period
@@ -85,14 +90,14 @@ df["special_cause_run_below_mean"] = df["run_below_mean"] >= trend_period
        
 #code for ID'ing runs of ascending and decending points
 
-df["run_ascending"] = df.groupby((df.iloc[:, 1] 
-                                  <= df.iloc[:, 1].shift(1))
+df["run_ascending"] = df.groupby((df["plotdata"] 
+                                  <= df["plotdata"].shift(1))
                                   .cumsum()).cumcount()
 
 df["special_cause_ascending"] = df["run_ascending"] >= trend_period 
 
-df["run_decending"] = df.groupby((df.iloc[:, 1] 
-                                  >= df.iloc[:, 1].shift(1))
+df["run_decending"] = df.groupby((df["plotdata"] 
+                                  >= df["plotdata"].shift(1))
                                   .cumsum()).cumcount()
 
 df["special_cause_decending"] = df["run_decending"] >= trend_period 
@@ -106,7 +111,7 @@ figure_1, ax = plt.subplots()
 
 
 #plotting lines
-ax.plot(df["Month"], df.iloc[:, 1], marker = "o", markersize = 10, 
+ax.plot(df["Month"], df["plotdata"], marker = "o", markersize = 10, 
         color = "black", markerfacecolor = "grey", markeredgecolor = "grey")
 ax.plot(df["Month"], df["mean"], color = "grey")
 ax.plot(df["Month"], df["upper_limit"], ls=":", color = "black")
@@ -117,49 +122,49 @@ ax.plot(df["Month"], df["target"], ls="-", color = "red")
 #plotting points outside limits
 if performance_improvement == True:
     ax.plot(df["Month"][df["below_lower"]], 
-            df.iloc[:, 1][df["below_lower"]], 
+            df["plotdata"][df["below_lower"]], 
             marker="o", markersize=10, ls = "None", color = "orange")
     ax.plot(df["Month"][df["above_upper"]], 
-            df.iloc[:, 1][df["above_upper"]], 
+            df["plotdata"][df["above_upper"]], 
             marker="o", markersize=10, ls = "None", color = "blue")
 elif performance_improvement == False:
     ax.plot(df["Month"][df["below_lower"]], 
-            df.iloc[:, 1][df["below_lower"]], 
+            df["plotdata"][df["below_lower"]], 
             marker="o", markersize=10, ls = "None", color = "blue")
     ax.plot(df["Month"][df["above_upper"]], 
-            df.iloc[:, 1][df["above_upper"]], 
+            df["plotdata"][df["above_upper"]], 
             marker="o", markersize=10, ls = "None", color = "orange")
 
 #plotting points above and below mean
 if performance_improvement == True:
     ax.plot(df["Month"][df["special_cause_run_above_mean"]],
-            df.iloc[:, 1][df["special_cause_run_above_mean"]],
+            df["plotdata"][df["special_cause_run_above_mean"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
     ax.plot(df["Month"][df["special_cause_run_below_mean"]],
-            df.iloc[:, 1][df["special_cause_run_below_mean"]],
+            df["plotdata"][df["special_cause_run_below_mean"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
 elif performance_improvement == False:
     ax.plot(df["Month"][df["special_cause_run_above_mean"]],
-            df.iloc[:, 1][df["special_cause_run_above_mean"]],
+            df["plotdata"][df["special_cause_run_above_mean"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
     ax.plot(df["Month"][df["special_cause_run_below_mean"]],
-            df.iloc[:, 1][df["special_cause_run_below_mean"]],
+            df["plotdata"][df["special_cause_run_below_mean"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
     
 #plotting points ascending/decending
 if performance_improvement == True:
     ax.plot(df["Month"][df["special_cause_ascending"]],
-            df.iloc[:, 1][df["special_cause_ascending"]],
+            df["plotdata"][df["special_cause_ascending"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
     ax.plot(df["Month"][df["special_cause_decending"]],
-            df.iloc[:, 1][df["special_cause_decending"]],
+            df["plotdata"][df["special_cause_decending"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
 elif performance_improvement == False:
       ax.plot(df["Month"][df["special_cause_ascending"]],
-            df.iloc[:, 1][df["special_cause_ascending"]],
+            df["plotdata"][df["special_cause_ascending"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
       ax.plot(df["Month"][df["special_cause_decending"]],
-            df.iloc[:, 1][df["special_cause_decending"]],
+            df["plotdata"][df["special_cause_decending"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
 
 #y axis formatted to percentage if needed
