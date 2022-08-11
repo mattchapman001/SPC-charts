@@ -157,11 +157,12 @@ figure_1, ax = plt.subplots()
 
 #plotting lines
 ax.plot(df["Month"], df.iloc[:, 1], marker = "o", markersize = 10, 
-        color = "black", markerfacecolor = "grey")
+        color = "black", markerfacecolor = "grey", markeredgecolor = "grey")
 ax.plot(df["Month"], df["mean"], color = "grey")
 ax.plot(df["Month"], df["upper_limit"], ls=":", color = "black")
 ax.plot(df["Month"], df["lower_limit"], ls=":", color = "black")
 ax.plot(df["Month"], df["target"], ls="-", color = "red")
+
 
 #plotting points outside limits
 if performance_improvement == True:
@@ -234,12 +235,25 @@ if data_format == "Yes":
       
   
     percent_lower_limit = df["lower_limit"].iloc[-1]*100
-    plt.text(0.1, 0.85, "lower limit= " + percent_lower_limit. \
+    plt.text(0.1, 0.85, "Lower limit= " + percent_lower_limit. \
               round(decimals =2).astype(str) +"%",
               horizontalalignment='center',
               verticalalignment='center',
               transform = ax.transAxes,
               fontsize = 16)
+    
+        
+    if np.isnan(df["target"].iloc[-1]) == True:
+        percent_target = "no target"
+        
+    else:
+        percent_target = df["target"].iloc[-1]*100
+        plt.text(0.1, 0.8, "Target= " + percent_target. \
+                  round(decimals =2).astype(str) +"%",
+                  horizontalalignment='center',
+                  verticalalignment='center',
+                  transform = ax.transAxes,
+                  fontsize = 16)
    
 
 else:    
@@ -255,12 +269,24 @@ else:
               verticalalignment='center',
               transform = ax.transAxes,
               fontsize = 16)
-    plt.text(0.1, 0.85, "lower limit= " + df["lower_limit"]. \
+    plt.text(0.1, 0.85, "Lower limit= " + df["lower_limit"]. \
               round(decimals =2).iloc[-1].astype(str),
               horizontalalignment='center',
               verticalalignment='center',
               transform = ax.transAxes,
               fontsize = 16) 
+    
+    if np.isnan(df["target"].iloc[-1]) == True:
+        percent_target = "no target"
+        
+    else:
+        percent_target = df["target"].iloc[-1]
+        plt.text(0.1, 0.8, "Target= " + percent_target. \
+                  round(decimals =2).astype(str),
+                  horizontalalignment='center',
+                  verticalalignment='center',
+                  transform = ax.transAxes,
+                  fontsize = 16)
         
         
 ax.tick_params(axis="x", labelrotation= 90)
