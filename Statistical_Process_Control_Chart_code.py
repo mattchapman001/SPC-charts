@@ -75,9 +75,6 @@ df["above_upper"] = (df["plotdata"] > df["upper_limit"])
 df["run_above_mean"] = df.groupby((df["plotdata"] 
                                   < df["mean"]).cumsum()).cumcount()
 
-df["run_above_mean"] = df.groupby((df["plotdata"] 
-                                  > df["mean"]).cumsum()).cumcount()
-
 df["special_cause_run_above_mean"] = df["run_above_mean"] >= trend_period
 
 
