@@ -113,34 +113,53 @@ df["below_lower"] = (df["plotdata"] < df["lower_limit"])
 df["above_upper"] = (df["plotdata"] > df["upper_limit"])
 
 
-
 # code for ID'ing runs above and mean
 df["run_above_mean"] = df.groupby((df["plotdata"] 
-                                  < df["mean"]).cumsum()).cumcount()
+                                  < df["mean"])
+                                  .cumsum()).cumcount(ascending = False)
 
+df["run_above_mean_rolling"] = df["run_above_mean"].\
+    rolling(trend_period, min_periods = 1).max()
 
-df["special_cause_run_above_mean"] = df["run_above_mean"] >= trend_period
+df["special_cause_run_above_mean"] = \
+    df["run_above_mean_rolling"] >= trend_period
+
 
 
 df["run_below_mean"] = df.groupby((df["plotdata"] 
-                                  > df["mean"]).cumsum()).cumcount()
+                                  > df["mean"])
+                                  .cumsum()).cumcount(ascending = False)
 
-df["special_cause_run_below_mean"] = df["run_below_mean"] >= trend_period
+df["run_below_mean_rolling"] = df["run_below_mean"].\
+    rolling(trend_period, min_periods = 1).max()
+
+df["special_cause_run_below_mean"]= \
+    df["run_below_mean_rolling"] >= trend_period
+
 
        
 #code for ID'ing runs of ascending and decending points
 
 df["run_ascending"] = df.groupby((df["plotdata"] 
                                   <= df["plotdata"].shift(1))
-                                  .cumsum()).cumcount()
+                                  .cumsum()).cumcount(ascending = False)
 
-df["special_cause_ascending"] = df["run_ascending"] >= trend_period 
+df["run_ascending_rolling"] = df["run_ascending"].\
+    rolling(trend_period, min_periods = 1).max()
+
+df["special_cause_ascending"] = df["run_ascending_rolling"] >= trend_period 
 
 df["run_decending"] = df.groupby((df["plotdata"] 
                                   >= df["plotdata"].shift(1))
-                                  .cumsum()).cumcount()
+                                  .cumsum()).cumcount(ascending = False)
 
-df["special_cause_decending"] = df["run_decending"] >= trend_period 
+df["run_decending_rolling"] = df["run_decending"].\
+    rolling(trend_period, min_periods = 1).max()
+
+df["special_cause_decending"] = df["run_decending_rolling"] >= trend_period
+df["run_above_mean"] = df.groupby((df["plotdata"] 
+                                  < df["mean"]).cumsum()).cumcount()
+
 
 #Streamlit metrics
 col1, col2, col3 = st.columns(3)
