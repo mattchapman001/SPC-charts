@@ -13,7 +13,8 @@ import matplotlib.ticker as mtick
 
 st.title("SPC Chart Creator")
 
-st.write("The uploaded file must be saved as a .csv file and be in the following format")
+st.write("The uploaded file must be saved as a .csv file and be in the\
+         following format")
 
 example_df = pd.DataFrame({
     "Month": ["Dec 21", "Jan 22", "Feb 22"],
@@ -36,11 +37,12 @@ chart_title = st.sidebar.text_input("Chart title")
 
 data_format = st.sidebar.radio("Is the data a percentage?", ("Yes", "No"))
 
-performance_improvement = st.sidebar.radio("For this chart what does an improvement look like?",
+performance_improvement = \
+    st.sidebar.radio("For this chart what does an improvement look like?",
                                    ("An increasing value is an improvement",
                                     "A decreasing value is an improvement"))
 
-y_axis_zero = st.sidebar.radio("Set y-axis to start at zero", ("yes", "no"))
+y_axis_zero = st.sidebar.radio("Chart y-axis to start at zero?", ("Yes", "No"))
 
 if performance_improvement == "An increasing value is an improvement":
     performance_improvement = True
@@ -157,11 +159,21 @@ df["special_cause_decending"] = df["run_decending"].\
 
 
 #Streamlit metrics
-col1, col2, col3 = st.columns(3)
 
-col1.metric("Mean", df["mean"].iloc[-1].round(2))
-col2.metric("Upper limit", df["upper_limit"].iloc[-1].round(2))
-col3.metric("Lower limit", df["lower_limit"].iloc[-1].round(2))
+if data_format == "No":
+
+    col1, col2, col3 = st.columns(3)
+    
+    col1.metric("Mean", df["mean"].iloc[-1].round(2))
+    col2.metric("Upper limit", df["upper_limit"].iloc[-1].round(2))
+    col3.metric("Lower limit", df["lower_limit"].iloc[-1].round(2))
+    
+else:
+    col1, col2, col3 = st.columns(3)
+    
+    col1.metric("Mean (%)", ((df["mean"].iloc[-1])*100).round(2))
+    col2.metric("Upper limit (%)", ((df["upper_limit"].iloc[-1])*100).round(2))
+    col3.metric("Lower limit (%)", ((df["lower_limit"].iloc[-1])*100).round(2))
 
 
 ## GRAPH ##
@@ -304,14 +316,11 @@ else:
                   transform = ax.transAxes,
                   fontsize = 16)
         
-if y_axis_zero == "yes":
+if y_axis_zero == "Yes":
     ax.set_ylim(0)
 
-elif y_axis_zero == "no":
-    ax.set_ylim()
             
 ax.tick_params(axis="x", labelrotation= 90)
-ax.set_ylim(0)
 plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
 plt.title(chart_title, fontsize=25)
