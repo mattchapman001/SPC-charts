@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import matplotlib.ticker as mtick
+import seaborn as sns
 
 st.title("SPC Chart Creator")
 
@@ -195,7 +196,8 @@ else:
 
 figure_1, ax = plt.subplots()
 
-
+sns.set_theme()
+sns.set_context("paper")
 
 #plotting lines
 ax.plot(df["Month"], df["plotdata"], marker = "o", markersize = 10, 
@@ -351,10 +353,12 @@ figure_1.set_figheight(9)
 # fig, ax = plt.subplots()
 # ax.bar(x, arr)
 
+
+
+
 st.pyplot(figure_1, width = 1)
 
 
 #st.download_button("Download chart image", f"{chart_title}.png")
-
 
 
