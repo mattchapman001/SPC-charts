@@ -32,7 +32,7 @@ st.dataframe(example_df)
 
 #Blank csv template to download   
 
-blank_df = pd.DataFrame({"Month":[], "Data":[], "Phase":[], "Target":[]})
+blank_df = pd.DataFrame({"Month":[], "data":[], "phase":[], "target":[]})
 
 blank_df.set_index("Month", inplace = True)
 
