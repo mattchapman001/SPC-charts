@@ -15,6 +15,10 @@ st.title("SPC Chart Creator")
 
 st.write("The uploaded file must be saved as a .csv file and be in the\
          following format")
+         
+st.write("The first column has the month, 2nd column the data, in decimal\
+         format for percentages (e.g. 0.5 for 50%), 3rd column has the phase,\
+             and the 4th column a target if there is one.")
 
 example_df = pd.DataFrame({
     "Month": ["Dec 21", "Jan 22", "Feb 22"],
@@ -22,15 +26,25 @@ example_df = pd.DataFrame({
     "Phase": [1,1,2],
     "Target": [45, 45, 45]})
 
-st.write("The first column has the month, 2nd column the data, in decimal\
-         format for percentages (e.g. 0.5 for 50%), 3rd column has the phase,\
-             and the 4th column a target if there is one.")
-    
 example_df.set_index("Month", inplace = True)
 
-st.write(example_df)
+st.dataframe(example_df)
 
-st.write("Drag and drop .csv file in correct format")
+#Blank csv template to download   
+
+blank_df = pd.DataFrame({"Month":[], "Data":[], "Phase":[], "Target":[]})
+
+blank_df.set_index("Month", inplace = True)
+
+def convert_df(df):
+    return df.to_csv().encode("utf-8")
+
+csv = convert_df(blank_df)
+
+st.download_button("Click here to download blank template", 
+                   data = csv, file_name = "Blank_template.csv")
+
+st.subheader("Drag and drop .csv file in correct format into the box below")
 
 #chart title code
 chart_title = st.sidebar.text_input("Chart title")
@@ -338,6 +352,7 @@ figure_1.set_figheight(9)
 # ax.bar(x, arr)
 
 st.pyplot(figure_1, width = 1)
+
 
 #st.download_button("Download chart image", f"{chart_title}.png")
 
