@@ -40,6 +40,8 @@ performance_improvement = st.sidebar.radio("For this chart what does an improvem
                                    ("An increasing value is an improvement",
                                     "A decreasing value is an improvement"))
 
+y_axis_zero = st.sidebar.radio("Set y-axis to start at zero", ("yes", "no"))
+
 if performance_improvement == "An increasing value is an improvement":
     performance_improvement = True
 else:
@@ -302,7 +304,9 @@ else:
                   transform = ax.transAxes,
                   fontsize = 16)
         
-        
+if y_axis_zero == "yes":
+    ax.set_ylim(0)
+            
 ax.tick_params(axis="x", labelrotation= 90)
 plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
