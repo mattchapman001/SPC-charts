@@ -308,6 +308,7 @@ if y_axis_zero == "yes":
     ax.set_ylim(0)
             
 ax.tick_params(axis="x", labelrotation= 90)
+ax.set_ylim(0)
 plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
 plt.title(chart_title, fontsize=25)
