@@ -306,6 +306,9 @@ else:
         
 if y_axis_zero == "yes":
     ax.set_ylim(0)
+
+elif y_axis_zero == "no":
+    ax.set_ylim()
             
 ax.tick_params(axis="x", labelrotation= 90)
 ax.set_ylim(0)
