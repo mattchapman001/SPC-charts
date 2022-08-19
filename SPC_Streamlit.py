@@ -92,7 +92,7 @@ if chart_title != "":
 else:
     chart_title = df.columns[1]
 
-df["plotdata"] = df.iloc[:, 1]
+df.columns = ["Month", "plotdata", "phase", "target"]
 
 #number of months to look for increasing/decreasing or runs above/below mean
 trend_period = 7
