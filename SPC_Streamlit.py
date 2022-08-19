@@ -261,76 +261,6 @@ elif performance_improvement == False:
 if data_format == "Yes":
     ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0, 0)) 
     
-    percent_upper_limit = df["upper_limit"].iloc[-1]*100
-    plt.text(0.1, 0.95, "Upper Limit=" + percent_upper_limit . \
-              round(decimals =2).astype(str) + "%",
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    
-    percent_mean = df["mean"].iloc[-1]*100
-    plt.text(0.1, 0.9, "Mean= " + percent_mean. \
-              round(decimals =2).astype(str) + "%",
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-      
-  
-    percent_lower_limit = df["lower_limit"].iloc[-1]*100
-    plt.text(0.1, 0.85, "Lower limit= " + percent_lower_limit. \
-              round(decimals =2).astype(str) +"%",
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    
-        
-    if np.isnan(df["target"].iloc[-1]) == True:
-        percent_target = "no target"
-        
-    else:
-        percent_target = df["target"].iloc[-1]*100
-        plt.text(0.1, 0.8, "Target= " + percent_target. \
-                  round(decimals =2).astype(str) +"%",
-                  horizontalalignment='center',
-                  verticalalignment='center',
-                  transform = ax.transAxes,
-                  fontsize = 16)
-   
-
-else:    
-    plt.text(0.1, 0.95, "Upper Limit= " + df["upper_limit"].iloc[-1]. \
-              round(decimals =2).astype(str),
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    plt.text(0.1, 0.9, "Mean= " + df["mean"].iloc[-1]. \
-              round(decimals =2).astype(str),
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    plt.text(0.1, 0.85, "Lower limit= " + df["lower_limit"]. \
-              round(decimals =2).iloc[-1].astype(str),
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16) 
-    
-    if np.isnan(df["target"].iloc[-1]) == True:
-        percent_target = "no target"
-        
-    else:
-        percent_target = df["target"].iloc[-1]
-        plt.text(0.1, 0.8, "Target= " + percent_target. \
-                  round(decimals =2).astype(str),
-                  horizontalalignment='center',
-                  verticalalignment='center',
-                  transform = ax.transAxes,
-                  fontsize = 16)
         
 if y_axis_zero == "Yes":
     ax.set_ylim(0)
@@ -346,7 +276,27 @@ figure_1.set_figheight(9)
 #figure_1.savefig(f"{chart_title}.png", bbox_inches = "tight")
 #figure_1.show()
 
+#Data labels
 
+ax.text(df["Month"].iloc[-2], 
+        df["target"].iloc[-1], 
+        "Target", 
+        ha="center", 
+        va="center", size=15)
+
+ax.text(df["Month"].iloc[-2], 
+        df["upper_limit"].iloc[-1], 
+        "Upper process limit", 
+        ha="center", 
+        va="center", 
+        size=15)
+
+ax.text(df["Month"].iloc[-2], 
+        df["lower_limit"].iloc[-1], 
+        "Lower process limit", 
+        ha="center", 
+        va="center", 
+        size=15)
 
 # arr = np.random.normal(1,1, size =100)
 # x = list(range(0, 100))
