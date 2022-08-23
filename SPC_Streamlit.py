@@ -25,7 +25,7 @@ example_df = pd.DataFrame({
     "Data": [50, 65, 70],
     "Phase": [1,1,2],
     "Target": [45, 45, 45]})
-
+          
 example_df.set_index("Month", inplace = True)
 
 st.dataframe(example_df)
@@ -91,7 +91,7 @@ if chart_title != "":
 else:
     chart_title = df.columns[1]
 
-df["plotdata"] = df.iloc[:, 1]
+df.columns = ["Month", "plotdata", "phase", "target"]
 
 #number of months to look for increasing/decreasing or runs above/below mean
 trend_period = 7
