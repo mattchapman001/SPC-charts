@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import matplotlib.ticker as mtick
+import seaborn as sns
 
 
 # df["plotdata"] refers to the 2nd imported column, as this column name can
@@ -117,7 +118,8 @@ df["special_cause_decending"] = df["run_decending"].\
 
 figure_1, ax = plt.subplots()
 
-
+sns.set_theme()
+sns.set_context("paper")
 
 #plotting lines
 ax.plot(df["Month"], df["plotdata"], marker = "o", markersize = 10, 
@@ -262,4 +264,10 @@ plt.tight_layout()
 figure_1.set_figwidth(18)
 figure_1.set_figheight(9)
 
+
+
+
 figure_1.show()
+
+
+

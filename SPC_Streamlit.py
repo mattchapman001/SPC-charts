@@ -10,6 +10,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import matplotlib.ticker as mtick
+import seaborn as sns
+
+def convert_df(df):
+    return df.to_csv().encode("utf-8")
+
+#number of months to look for increasing/decreasing or runs above/below mean
+trend_period = 7
+
 
 st.title("SPC Chart Creator")
 
@@ -36,13 +44,12 @@ blank_df = pd.DataFrame({"Month":[], "data":[], "phase":[], "target":[]})
 
 blank_df.set_index("Month", inplace = True)
 
-def convert_df(df):
-    return df.to_csv().encode("utf-8")
-
 csv = convert_df(blank_df)
 
 st.download_button("Click here to download blank template", 
-                   data = csv, file_name = "Blank_template.csv")
+                   data = csv, file_name = "Blank_template.csv",
+                   help = "A blank template that can be populated with data\
+                       and uploaded")
 
 st.subheader("Drag and drop .csv file in correct format into the box below")
 
@@ -65,15 +72,6 @@ else:
 
 
   
-# df["plotdata"] refers to the 2nd imported column, as this column name can
-# change the column index is used rather than the column name
-
-#Name of import document 
-# 1st column= month, 
-# 2nd column = data, 
-# 3rd column = phase
-# 4th column = target
-#columns need headers and header of 2nd column is chart title
 uploaded_file = st.file_uploader("Upload CSV data")
 
 if uploaded_file is not None:
@@ -90,15 +88,19 @@ if chart_title != "":
 
 else:
     chart_title = df.columns[1]
+    
+
+#overwrite column headers so rest of code will work if header were changed 
+#in the uploaded file
 
 df.columns = ["Month", "plotdata", "phase", "target"]
 
 #number of months to look for increasing/decreasing or runs above/below mean
 trend_period = 7
 
+
+df.columns = ["Month", "plotdata", "phase", "target"]
     
-#Improvement direction (True/False)
-#performance_improvement = True
 
 # calulate mean and create mean line for chart
 df["mean"] = df["plotdata"].groupby(df["phase"]).transform("mean")
@@ -195,7 +197,8 @@ else:
 
 figure_1, ax = plt.subplots()
 
-
+sns.set_theme()
+sns.set_context("paper")
 
 #plotting lines
 ax.plot(df["Month"], df["plotdata"], marker = "o", markersize = 10, 
@@ -222,7 +225,7 @@ elif performance_improvement == False:
             df["plotdata"][df["above_upper"]], 
             marker="o", markersize=10, ls = "None", color = "orange")
 
-#plotting points above and below mean
+#plotting runs above and below mean
 if performance_improvement == True:
     ax.plot(df["Month"][df["special_cause_run_above_mean"]],
             df["plotdata"][df["special_cause_run_above_mean"]],
@@ -238,7 +241,7 @@ elif performance_improvement == False:
             df["plotdata"][df["special_cause_run_below_mean"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
     
-#plotting points ascending/decending
+#plotting runs ascending/decending
 if performance_improvement == True:
     ax.plot(df["Month"][df["special_cause_ascending"]],
             df["plotdata"][df["special_cause_ascending"]],
@@ -259,77 +262,7 @@ elif performance_improvement == False:
 if data_format == "Yes":
     ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0, 0)) 
     
-    percent_upper_limit = df["upper_limit"].iloc[-1]*100
-    plt.text(0.1, 0.95, "Upper Limit=" + percent_upper_limit . \
-              round(decimals =2).astype(str) + "%",
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    
-    percent_mean = df["mean"].iloc[-1]*100
-    plt.text(0.1, 0.9, "Mean= " + percent_mean. \
-              round(decimals =2).astype(str) + "%",
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-      
-  
-    percent_lower_limit = df["lower_limit"].iloc[-1]*100
-    plt.text(0.1, 0.85, "Lower limit= " + percent_lower_limit. \
-              round(decimals =2).astype(str) +"%",
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    
-        
-    if np.isnan(df["target"].iloc[-1]) == True:
-        percent_target = "no target"
-        
-    else:
-        percent_target = df["target"].iloc[-1]*100
-        plt.text(0.1, 0.8, "Target= " + percent_target. \
-                  round(decimals =2).astype(str) +"%",
-                  horizontalalignment='center',
-                  verticalalignment='center',
-                  transform = ax.transAxes,
-                  fontsize = 16)
-   
-
-else:    
-    plt.text(0.1, 0.95, "Upper Limit= " + df["upper_limit"].iloc[-1]. \
-              round(decimals =2).astype(str),
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    plt.text(0.1, 0.9, "Mean= " + df["mean"].iloc[-1]. \
-              round(decimals =2).astype(str),
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16)
-    plt.text(0.1, 0.85, "Lower limit= " + df["lower_limit"]. \
-              round(decimals =2).iloc[-1].astype(str),
-              horizontalalignment='center',
-              verticalalignment='center',
-              transform = ax.transAxes,
-              fontsize = 16) 
-    
-    if np.isnan(df["target"].iloc[-1]) == True:
-        percent_target = "no target"
-        
-    else:
-        percent_target = df["target"].iloc[-1]
-        plt.text(0.1, 0.8, "Target= " + percent_target. \
-                  round(decimals =2).astype(str),
-                  horizontalalignment='center',
-                  verticalalignment='center',
-                  transform = ax.transAxes,
-                  fontsize = 16)
-        
+#set y axis to zero if option selected       
 if y_axis_zero == "Yes":
     ax.set_ylim(0)
 
@@ -341,20 +274,87 @@ plt.title(chart_title, fontsize=25)
 plt.tight_layout()
 figure_1.set_figwidth(18)
 figure_1.set_figheight(9)
-#figure_1.savefig(f"{chart_title}.png", bbox_inches = "tight")
-#figure_1.show()
 
 
+#Data labels
 
-# arr = np.random.normal(1,1, size =100)
-# x = list(range(0, 100))
-# fig, ax = plt.subplots()
-# ax.bar(x, arr)
+if data_format == "No":
+    target_str = str(df["target"].iloc[-1].round(1))
+    upper_limit_str = str(df["upper_limit"].iloc[-1].round(1))
+    lower_limit_str = str(df["lower_limit"].iloc[-1].round(1))
+    mean_str = str(df["mean"].iloc[-1].round(1))
+    
+    ax.text(df["Month"].iloc[-2], 
+            df["target"].iloc[-1], 
+            "Target= " + target_str, 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+    ax.text(df["Month"].iloc[-2],
+            df["upper_limit"].iloc[-1], 
+            "Upper process limit= " + upper_limit_str, 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+    ax.text(df["Month"].iloc[-2], 
+            df["lower_limit"].iloc[-1], 
+            "Lower process limit= " + lower_limit_str, 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+    ax.text(df["Month"].iloc[-2], 
+            df["mean"].iloc[-1], 
+            "Mean= " + mean_str, 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+else:
+    target_str = str(df["target"].iloc[-1].round(4)*100)
+    upper_limit_str = str(df["upper_limit"].iloc[-1].round(4)*100)
+    lower_limit_str = str(df["lower_limit"].iloc[-1].round(4)*100)
+    mean_str = str(df["mean"].iloc[-1].round(4)*100)
+    
+
+    ax.text(df["Month"].iloc[-2], 
+            df["target"].iloc[-1], 
+            "Target= " + target_str + "%", 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+    ax.text(df["Month"].iloc[-2],
+            df["upper_limit"].iloc[-1], 
+            "Upper process limit= " + upper_limit_str+ "%", 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+    ax.text(df["Month"].iloc[-2], 
+            df["lower_limit"].iloc[-1], 
+            "Lower process limit= " + lower_limit_str + "%", 
+            ha="center", 
+            va="center", 
+            size=15)
+    
+    ax.text(df["Month"].iloc[-2], 
+            df["mean"].iloc[-1], 
+            "Mean= " + mean_str + "%", 
+            ha="center", 
+            va="center", 
+            size=15)
+
 
 st.pyplot(figure_1, width = 1)
 
+csv_df = convert_df(df)
 
-#st.download_button("Download chart image", f"{chart_title}.png")
-
+st.download_button("Click here to download data extract", 
+                   data = csv_df, file_name = "Data_extract.csv",
+                   help = 
+                   "A .csv file of the data generated to create the chart")
 
 
