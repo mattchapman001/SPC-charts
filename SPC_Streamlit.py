@@ -33,7 +33,7 @@ example_df = pd.DataFrame({
     "Data": [50, 65, 70],
     "Phase": [1,1,2],
     "Target": [45, 45, 45]})
-
+          
 example_df.set_index("Month", inplace = True)
 
 st.dataframe(example_df)
@@ -92,6 +92,12 @@ else:
 
 #overwrite column headers so rest of code will work if header were changed 
 #in the uploaded file
+
+df.columns = ["Month", "plotdata", "phase", "target"]
+
+#number of months to look for increasing/decreasing or runs above/below mean
+trend_period = 7
+
 
 df.columns = ["Month", "plotdata", "phase", "target"]
     
