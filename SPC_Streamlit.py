@@ -95,13 +95,6 @@ else:
 
 df.columns = ["Month", "plotdata", "phase", "target"]
 
-#number of months to look for increasing/decreasing or runs above/below mean
-trend_period = 7
-
-
-df.columns = ["Month", "plotdata", "phase", "target"]
-    
-
 # calulate mean and create mean line for chart
 df["mean"] = df["plotdata"].groupby(df["phase"]).transform("mean")
    
