@@ -21,12 +21,18 @@ trend_period = 7
 
 st.title("SPC Chart Creator")
 
-st.write("The uploaded file must be saved as a .csv file and be in the\
-         following format")
+st.write("To create a chart upload a .csv file in the following format:")
          
-st.write("The first column has the month, 2nd column the data, in decimal\
-         format for percentages (e.g. 0.5 for 50%), 3rd column has the phase,\
-             and the 4th column a target if there is one.")
+st.write("- First column = Month")
+st.write("- Second column = Data (percentges need to be in decimal format, \
+         eg, 0.5 for 50% )")
+st.write("- Third column = Phase, this defines the mean along with the upper \
+         and lower limit values. Start at 1, if there has been a significant \
+         underlying change to the data a new phase may be justified")
+st.write("- Fourth column = Target")
+
+st.subheader("Example of required .csv format")
+
 
 example_df = pd.DataFrame({
     "Month": ["Dec 21", "Jan 22", "Feb 22"],
@@ -46,7 +52,7 @@ blank_df.set_index("Month", inplace = True)
 
 csv = convert_df(blank_df)
 
-st.download_button("Click here to download blank template", 
+st.download_button("Click here to download a blank template", 
                    data = csv, file_name = "Blank_template.csv",
                    help = "A blank template that can be populated with data\
                        and uploaded")
