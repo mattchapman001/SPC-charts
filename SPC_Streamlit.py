@@ -24,7 +24,7 @@ st.title("SPC Chart Creator")
 st.write("To create a chart upload a .csv file in the following format:")
          
 st.write("- First column = Month")
-st.write("- Second column = Data (percentges need to be in decimal format, \
+st.write("- Second column = Data (percentages need to be in decimal format, \
          eg, 0.5 for 50% )")
 st.write("- Third column = Phase, this defines the mean along with the upper \
          and lower limit values. Start at 1, if there has been a significant \
