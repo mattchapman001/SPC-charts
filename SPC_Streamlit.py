@@ -28,7 +28,7 @@ st.write("- Second column = Data (percentages need to be in decimal format, \
          eg, 0.5 for 50% )")
 st.write("- Third column = Phase, this defines the mean along with the upper \
          and lower limit values. Start at 1, if there has been a significant \
-         underlying change to the data a new phase may be justified")
+         underlying change to the data a new phase may be justified.")
 st.write("- Fourth column = Target")
 
 st.subheader("Example of required .csv format")
