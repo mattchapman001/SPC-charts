@@ -271,11 +271,18 @@ figure_1.set_figheight(9)
 
 #Data labels
 
+target = df["target"].iloc[-1]
+mean = df["mean"].iloc[-1]
+upper_limit = df["upper_limit"].iloc[-1]
+lower_limit = df["lower_limit"].iloc[-1]
+
+
+
 if data_format == "No":
-    target_str = str(df["target"].iloc[-1].round(1))
-    upper_limit_str = str(df["upper_limit"].iloc[-1].round(1))
-    lower_limit_str = str(df["lower_limit"].iloc[-1].round(1))
-    mean_str = str(df["mean"].iloc[-1].round(1))
+    target_str = f"{target:.2f}"
+    upper_limit_str = f"{upper_limit:.2f}"
+    lower_limit_str = f"{lower_limit:.2f}"
+    mean_str = f"{mean:.2f}"
     
     ax.text(df["Month"].iloc[-2], 
             df["target"].iloc[-1], 
@@ -307,10 +314,16 @@ if data_format == "No":
             size=15)
     
 else:
-    target_str = str(df["target"].iloc[-1].round(4)*100)
-    upper_limit_str = str(df["upper_limit"].iloc[-1].round(4)*100)
-    lower_limit_str = str(df["lower_limit"].iloc[-1].round(4)*100)
-    mean_str = str(df["mean"].iloc[-1].round(4)*100)
+    target = df["target"].iloc[-1]*100
+    mean = df["mean"].iloc[-1]*100
+    upper_limit = df["upper_limit"].iloc[-1]*100
+    lower_limit = df["lower_limit"].iloc[-1]*100
+      
+    
+    target_str = f"{target:.2f}"
+    upper_limit_str = f"{upper_limit:.2f}"
+    lower_limit_str = f"{lower_limit:.2f}"
+    mean_str = f"{mean:.2f}"
     
 
     ax.text(df["Month"].iloc[-2], 
