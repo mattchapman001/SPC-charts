@@ -298,7 +298,15 @@ if data_format == "No":
             va="center", 
             size=15)
     
-    if df["lower_limit"].iloc[-1] > 0:
+    if y_axis_zero == "Yes" and df["lower_limit"].iloc[-1] > 0:
+        ax.text(df["Month"].iloc[-2], 
+                df["lower_limit"].iloc[-1], 
+                "Lower process limit= " + lower_limit_str, 
+                ha="center", 
+                va="center", 
+                size=15)
+        
+    elif y_axis_zero == "No":
         ax.text(df["Month"].iloc[-2], 
                 df["lower_limit"].iloc[-1], 
                 "Lower process limit= " + lower_limit_str, 
@@ -335,12 +343,20 @@ else:
     
     ax.text(df["Month"].iloc[-2],
             df["upper_limit"].iloc[-1], 
-            "Upper process limit= " + upper_limit_str+ "%", 
+            "Upper process limit= " + upper_limit_str + "%", 
             ha="center", 
             va="center", 
             size=15)
     
-    if df["lower_limit"].iloc[-1]> 0:
+    if y_axis_zero == "Yes" and df["lower_limit"].iloc[-1] > 0:
+        ax.text(df["Month"].iloc[-2], 
+                df["lower_limit"].iloc[-1], 
+                "Lower process limit= " + lower_limit_str + "%", 
+                ha="center", 
+                va="center", 
+                size=15)
+        
+    elif y_axis_zero == "No":
         ax.text(df["Month"].iloc[-2], 
                 df["lower_limit"].iloc[-1], 
                 "Lower process limit= " + lower_limit_str + "%", 
