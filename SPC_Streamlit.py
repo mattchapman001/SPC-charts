@@ -26,9 +26,10 @@ st.write("To create a chart upload a .csv file in the following format:")
 st.write("- First column = Month")
 st.write("- Second column = Data (percentages need to be in decimal format, \
          eg, 0.5 for 50% )")
-st.write("- Third column = Phase, this defines the mean along with the upper \
-         and lower limit values. Start at 1, if there has been a significant \
-         underlying change to the data a new phase may be justified.")
+st.write("- Third column = Phase, this defines the range over which the the \
+         mean, along with the upper and lower limit values are calculated. \
+         Start at 1, if there has been a significant underlying change to \
+         the data a new phase may be justified.")
 st.write("- Fourth column = Target")
 
 with st.expander("Example of required .csv format"):
