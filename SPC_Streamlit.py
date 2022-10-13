@@ -31,21 +31,21 @@ st.write("- Third column = Phase, this defines the mean along with the upper \
          underlying change to the data a new phase may be justified.")
 st.write("- Fourth column = Target")
 
-st.subheader("Example of required .csv format")
+with st.expander("Example of required .csv format"):
 
 
-example_df = pd.DataFrame({
-    "Month": ["Dec 21", "Jan 22", "Feb 22"],
-    "Data": [50, 65, 70],
-    "Phase": [1,1,2],
-    "Target": [45, 45, 45]})
-          
-example_df.set_index("Month", inplace = True)
+    example_df = pd.DataFrame({
+        "Month": ["Dec", "Jan", "Feb"],
+        "Data": [50, 65, 70],
+        "Phase": [1,1,2],
+        "Target": [45, 45, 45]})
+              
+    example_df.set_index("Month", inplace = True)
+    
+    st.dataframe(example_df)
 
-st.dataframe(example_df)
-
-#Blank csv template to download   
-
+    #Blank csv template to download   
+    
 blank_df = pd.DataFrame({"Month":[], "data":[], "phase":[], "target":[]})
 
 blank_df.set_index("Month", inplace = True)
