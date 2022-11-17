@@ -23,6 +23,8 @@ import seaborn as sns
 #columns need headers and header of 2nd column is chart title
 df = pd.read_csv("test.csv")
 
+df.columns = ["Month", "plotdata", "phase", "target"]
+
 df["plotdata"] = df.iloc[:, 1]
 
 
