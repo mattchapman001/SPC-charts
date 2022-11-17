@@ -23,14 +23,14 @@ st.title("SPC Chart Creator")
 
 st.write("To create a chart upload a .csv file in the following format:")
          
-st.write("- First column = Month")
-st.write("- Second column = Data (percentages need to be in decimal format, \
+st.write("1️⃣ First column = Month")
+st.write("2️⃣ Second column = Data (percentages need to be in decimal format, \
          eg, 0.5 for 50% )")
-st.write("- Third column = Phase, this defines the range over which the the \
+st.write("3️⃣ Third column = Phase, this defines the range over which the the \
          mean, along with the upper and lower limit values are calculated. \
          Start at 1, if there has been a significant underlying change to \
          the data a new phase may be justified.")
-st.write("- Fourth column = Target")
+st.write("4️⃣ Fourth column = Target")
 
 with st.expander("Example of required .csv format"):
 
@@ -296,14 +296,14 @@ if data_format == "No":
             "Target= " + target_str, 
             ha="center", 
             va="center", 
-            size=15)
+            size=17)
     
     ax.text(df["Month"].iloc[-2],
             df["upper_limit"].iloc[-1], 
             "Upper process limit= " + upper_limit_str, 
             ha="center", 
             va="center", 
-            size=15)
+            size=17)
     
     if y_axis_zero == "Yes" and df["lower_limit"].iloc[-1] > 0:
         ax.text(df["Month"].iloc[-2], 
@@ -311,7 +311,7 @@ if data_format == "No":
                 "Lower process limit= " + lower_limit_str, 
                 ha="center", 
                 va="center", 
-                size=15)
+                size=17)
         
     elif y_axis_zero == "No":
         ax.text(df["Month"].iloc[-2], 
@@ -319,14 +319,14 @@ if data_format == "No":
                 "Lower process limit= " + lower_limit_str, 
                 ha="center", 
                 va="center", 
-                size=15)
+                size=17)
     
     ax.text(df["Month"].iloc[-2], 
             df["mean"].iloc[-1], 
             "Mean= " + mean_str, 
             ha="center", 
             va="center",
-            size=15)
+            size=17)
     
 else:
     target = df["target"].iloc[-1]*100
@@ -346,14 +346,14 @@ else:
             "Target= " + target_str + "%", 
             ha="center", 
             va="center", 
-            size=15)
+            size=17)
     
     ax.text(df["Month"].iloc[-2],
             df["upper_limit"].iloc[-1], 
             "Upper process limit= " + upper_limit_str + "%", 
             ha="center", 
             va="center", 
-            size=15)
+            size=17)
     
     if y_axis_zero == "Yes" and df["lower_limit"].iloc[-1] > 0:
         ax.text(df["Month"].iloc[-2], 
@@ -361,7 +361,7 @@ else:
                 "Lower process limit= " + lower_limit_str + "%", 
                 ha="center", 
                 va="center", 
-                size=15)
+                size=17)
         
     elif y_axis_zero == "No":
         ax.text(df["Month"].iloc[-2], 
@@ -369,14 +369,14 @@ else:
                 "Lower process limit= " + lower_limit_str + "%", 
                 ha="center", 
                 va="center", 
-                size=15)
+                size=17)
         
     ax.text(df["Month"].iloc[-2], 
             df["mean"].iloc[-1], 
             "Mean= " + mean_str + "%", 
             ha="center", 
             va="center", 
-            size=15)
+            size=17)
 
 
 st.pyplot(figure_1, width = 1)
