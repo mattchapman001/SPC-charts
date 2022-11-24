@@ -38,6 +38,15 @@ chart_title = df.columns[1]
 #data_foramt deceides if chart axis should be a percentage. True = Percent
 data_format = False
 
+#phase length code- shows length of current phase
+df["Phase_length"] = df.groupby((df['phase'] != df['phase'].shift(1)).\
+                                cumsum()).cumcount()+1
+
+df["Phase <15"] = df["Phase_length"].\
+    shift(-14).\
+        rolling(15, min_periods = 1).\
+            max() >= 15
+
 
 #Improvement direction (True/False)
 performance_improvement = False
@@ -255,7 +264,11 @@ else:
                   verticalalignment='center',
                   transform = ax.transAxes,
                   fontsize = 16)
-        
+
+
+ax.plot(df["Month"][df["Phase <15"]],
+        df["plotdata"][df["Phase <15"]],
+        marker= "o", markersize=10, ls = "None", color = "grey")     
         
 ax.tick_params(axis="x", labelrotation= 90)
 # ax.set_ylim(0)
