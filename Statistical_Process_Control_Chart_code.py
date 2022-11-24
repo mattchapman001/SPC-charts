@@ -36,7 +36,7 @@ chart_title = df.columns[1]
 
 
 #data_foramt deceides if chart axis should be a percentage. True = Percent
-data_format = True
+data_format = False
 
 
 #Improvement direction (True/False)
@@ -182,7 +182,7 @@ elif performance_improvement == False:
 
 #y axis formatted to percentage if needed
 
-if data_format == "Yes":
+if data_format == True:
     ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0, 0)) 
     
     percent_upper_limit = df["upper_limit"].iloc[-1]*100
