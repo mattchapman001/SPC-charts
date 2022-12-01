@@ -44,7 +44,7 @@ df["Phase_length"] = df.groupby((df['phase'] != df['phase'].shift(1)).\
 
 df["Phase <15"] = df["Phase_length"].\
     shift(-14).\
-        rolling(15, min_periods = 1).\
+        rolling(15, min_periods = 0).\
             max() >= 15
 
 
@@ -92,7 +92,7 @@ df["special_cause_run_above_mean"] = df["run_above_mean"].\
     shift(1-trend_period).\
         rolling(trend_period, min_periods = 1).\
             max() >= trend_period
-
+            
 df["run_below_mean"] = df.groupby((df["mean"] 
                                   < df["plotdata"])
                                   .cumsum()).cumcount()
