@@ -42,10 +42,12 @@ data_format = False
 df["Phase_length"] = df.groupby((df['phase'] != df['phase'].shift(1)).\
                                 cumsum()).cumcount()+1
 
+
+#ID's where data is in a phase of less than 15
 df["Phase <15"] = df["Phase_length"].\
     shift(-14).\
-        rolling(15, min_periods = 0).\
-            max() >= 15
+    rolling(15, min_periods = 0).\
+    max() < 15
 
 
 #Improvement direction (True/False)
