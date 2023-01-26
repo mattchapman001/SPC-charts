@@ -10,6 +10,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.ticker as mtick
 import seaborn as sns
+# from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+# from matplotlib._png import read_png
+
 
 
 # df["plotdata"] refers to the 2nd imported column, as this column name can
@@ -130,6 +133,15 @@ df["special_cause_decending"] = df["run_decending"].\
 
 
 figure_1, ax = plt.subplots()
+
+
+#Test code for imoprting an image and showing on chart
+# fail_target_icon = plt.imread("https://github.com/nhsengland/making-data-count/" \
+#     "blob/main/Icons/AssuranceIconFail.png?raw=true")
+
+
+# img = ax.imshow(fail_target_icon, extent = [0, 10, 0, 10])
+
 
 sns.set_theme()
 sns.set_context("paper")
@@ -280,6 +292,7 @@ plt.title(chart_title, fontsize=25)
 plt.tight_layout()
 figure_1.set_figwidth(18)
 figure_1.set_figheight(9)
+
 
 
 
