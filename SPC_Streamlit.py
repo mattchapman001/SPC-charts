@@ -18,6 +18,30 @@ def convert_df(df):
 #number of months to look for increasing/decreasing or runs above/below mean
 trend_period = 7
 
+# SPC icons from github
+
+fail_target_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/AssuranceIconFail.png?raw=true"
+hit_or_miss_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/AssuranceIconHitOrMiss.png?raw=true"
+pass_target_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/AssuranceIconPass.png?raw=true"
+common_cause_variation_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconCommonCause.png?raw=true"
+special_cause_concern_high_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconConcernHigh.png?raw=true"
+special_cause_concern_low_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconConcernLow.png?raw=true"
+special_cause_improvement_high_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconImprovementHigh.png"\
+        "?raw=true"
+special_cause_improvement_low_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconImprovementLow." \
+        "png?raw=true"
+special_cause_high_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/VariationIconNeitherHigh.png?raw=true"
+special_cause_low_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/VariationIconNeitherLow.png?raw=true"
 
 st.title("SPC Chart Creator")
 
@@ -387,5 +411,6 @@ st.download_button("Click here to download data extract",
                    data = csv_df, file_name = "Data_extract.csv",
                    help = 
                    "A .csv file of the data generated to create the chart")
+
 
 
