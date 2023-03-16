@@ -42,6 +42,15 @@ special_cause_high_icon = "https://github.com/nhsengland/making-data-count/" \
     "blob/main/Icons/VariationIconNeitherHigh.png?raw=true"
 special_cause_low_icon = "https://github.com/nhsengland/making-data-count/" \
     "blob/main/Icons/VariationIconNeitherLow.png?raw=true"
+    
+# st.image(fail_target_icon, width = 50)
+# st.image(hit_or_miss_icon, width = 50)
+# st.image(pass_target_icon, width = 50)
+# st.image(common_cause_variation_icon, width = 50)
+# st.image(special_cause_concern_high_icon, width = 50)
+# st.image(special_cause_improvement_low_icon, width = 50)
+# st.image(special_cause_high_icon, width = 50)
+# st.image(special_cause_low_icon, width = 50)
 
 st.title("SPC Chart Creator")
 
