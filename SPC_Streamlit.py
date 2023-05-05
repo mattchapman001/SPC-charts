@@ -422,4 +422,66 @@ st.download_button("Click here to download data extract",
                    "A .csv file of the data generated to create the chart")
 
 
+#icons to show
 
+special_cause_improvement_high = False
+special_cause_concern_low = False
+special_cause_improvement_low = False
+special_cause_concern_high = False
+
+
+if performance_improvement == True:
+    
+    if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
+        special_cause_improvement_high = True
+        
+    if df["special_cause_run_above_mean"].iloc[-1] == True:
+        special_cause_improvement_high = True
+    
+    if df["special_cause_ascending"].iloc[-1] == True:
+        special_cause_improvement_high = True
+        
+    if df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
+        special_cause_concern_low = True
+        
+    if df["special_cause_run_below_mean"].iloc[-1] == True:
+        special_cause_concern_low = True
+        
+    if df["special_cause_decending"].iloc[-1] == True:
+        special_cause_concern_low = True
+        
+else:
+    if df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
+        special_cause_improvement_low = True
+        
+    if df["special_cause_run_below_mean"].iloc[-1] == True:
+        special_cause_improvement_low = True
+    
+    if df["special_cause_decending"].iloc[-1] == True:
+        special_cause_improvement_low = True
+        
+    if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
+        special_cause_concern_high = True
+        
+    if df["special_cause_run_above_mean"].iloc[-1] == True:
+        special_cause_concern_high = True
+        
+    if df["special_cause_ascending"].iloc[-1] == True:
+        special_cause_concern_high = True
+        
+        
+if special_cause_improvement_high == True:
+    st.image(special_cause_improvement_high_icon)
+       
+if special_cause_concern_low == True:
+    st.image(special_cause_concern_low_icon)
+  
+if special_cause_improvement_low == True:
+    st.image(special_cause_improvement_low_icon)
+    
+if special_cause_concern_high == True:
+    st.image(special_cause_concern_high_icon)
+    
+    #special_cause_concern_high_icon
+    
+        
