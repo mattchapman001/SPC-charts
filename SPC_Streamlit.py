@@ -480,8 +480,8 @@ if special_cause_improvement_low == True:
     st.image(special_cause_improvement_low_icon)
     
 if special_cause_concern_high == True:
-    st.image(special_cause_concern_high_icon)
-    
-    #special_cause_concern_high_icon
+    st.image(special_cause_concern_high_icon) 
+
+#fail or pass target#
     
         
