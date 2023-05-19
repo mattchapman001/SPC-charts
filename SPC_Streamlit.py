@@ -483,5 +483,25 @@ if special_cause_concern_high == True:
     st.image(special_cause_concern_high_icon) 
 
 #fail or pass target#
+
+if df["target"].iloc[-1] > df["lower_limit"].iloc[-1] \
+    and df["target"].iloc[-1] < df["upper_limit"].iloc[-1]:
+    st.image(hit_or_miss_icon)
     
+    
+if performance_improvement == True:
+    if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
+        st.image(pass_target_icon)
+    
+    elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
+        st.image(fail_target_icon)              
+       
+
+if performance_improvement == False:
+    if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
+        st.image(fail_target_icon)
+    
+    elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
+        st.image(pass_target_icon)
+        
         
