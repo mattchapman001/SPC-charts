@@ -490,7 +490,7 @@ if performance_improvement == True:
         assurance_icon = pass_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        st.image(fail_target_icon)
+        #st.image(fail_target_icon)
         assurance_icon = fail_target_icon         
        
 
