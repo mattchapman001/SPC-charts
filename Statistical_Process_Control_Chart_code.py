@@ -13,6 +13,29 @@ import seaborn as sns
 # from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 # from matplotlib._png import read_png
 
+fail_target_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/AssuranceIconFail.png?raw=true"
+hit_or_miss_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/AssuranceIconHitOrMiss.png?raw=true"
+pass_target_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/AssuranceIconPass.png?raw=true"
+common_cause_variation_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconCommonCause.png?raw=true"
+special_cause_concern_high_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconConcernHigh.png?raw=true"
+special_cause_concern_low_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconConcernLow.png?raw=true"
+special_cause_improvement_high_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconImprovementHigh.png"\
+        "?raw=true"
+special_cause_improvement_low_icon = "https://github.com/nhsengland/" \
+    "making-data-count/blob/main/Icons/VariationIconImprovementLow." \
+        "png?raw=true"
+special_cause_high_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/VariationIconNeitherHigh.png?raw=true"
+special_cause_low_icon = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/VariationIconNeitherLow.png?raw=true"
+
 
 
 # df["plotdata"] refers to the 2nd imported column, as this column name can
@@ -293,7 +316,15 @@ plt.tight_layout()
 figure_1.set_figwidth(18)
 figure_1.set_figheight(9)
 
-
+fig, ax=plt.subplots()
+ax.plot(range(10))
+newax_assurance = figure_1.add_axes([0.5,0.75,0.2,0.2], anchor = "NE", zorder=1)
+newax_assurance.imshow(assurance_icon)
+newax_assurance.axis("off")
+newax_variation = figure_1.add_axes([0.5,0.75,0.2,0.2], anchor = "NW", zorder=1)
+newax_variation.imshow(variation_icon)
+newax_variation.axis("off")
+plt.show()
 
 
 
