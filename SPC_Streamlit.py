@@ -485,10 +485,6 @@ if performance_improvement == True:
         assurance_icon = pass_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-<<<<<<< HEAD
-=======
-        #st.image(fail_target_icon)
->>>>>>> e57ee941fadf057d1f852e371c38e2a438d5503b
         assurance_icon = fail_target_icon         
        
 
