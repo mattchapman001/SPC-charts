@@ -457,73 +457,57 @@ else:
         
     if df["special_cause_ascending"].iloc[-1] == True:
         special_cause_concern_high = True
-               
+   
+variation_icon = common_cause_variation_icon   
         
 if special_cause_improvement_high == True:
-    #st.image(special_cause_improvement_high_icon)
     variation_icon = special_cause_improvement_high_icon
            
 if special_cause_concern_low == True:
-    #st.image(special_cause_concern_low_icon)
     variation_icon = special_cause_concern_low_icon
   
 if special_cause_improvement_low == True:
-    #st.image(special_cause_improvement_low_icon)
     variation_icon = special_cause_improvement_low_icon
     
 if special_cause_concern_high == True:
-    #st.image(special_cause_concern_high_icon) 
     variation_icon = special_cause_concern_high_icon
 
 #fail or pass target#
 
 if df["target"].iloc[-1] > df["lower_limit"].iloc[-1] \
     and df["target"].iloc[-1] < df["upper_limit"].iloc[-1]:
-    #st.image(hit_or_miss_icon)
     assurance_icon = hit_or_miss_icon
     
     
     
 if performance_improvement == True:
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
-        #st.image(pass_target_icon)
         assurance_icon = pass_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        st.image(fail_target_icon)
         assurance_icon = fail_target_icon         
        
 
 if performance_improvement == False:
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
-        #st.image(fail_target_icon)
         assurance_icon = fail_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        #st.image(pass_target_icon)
         assurance_icon = pass_target_icon
-        
-col1, col2 = st.columns(2)
+     
 
-with col1:
-    st.image(variation_icon)
-
-with col2:
-    st.image(assurance_icon)
-
-assurance_icon = plt.imread(assurance_icon)
 variation_icon = plt.imread(variation_icon)
 
-#fig, ax=plt.subplots()
-#ax.plot(range(10))
-newax_assurance = figure_1.add_axes([0.5,0.75,0.1,0.1], anchor = "NE", zorder=1)
-newax_assurance.imshow(assurance_icon)
-newax_assurance.axis("off")
-newax_variation = figure_1.add_axes([0.5,0.75,0.1,0.1], anchor = "NW", zorder=1)
+newax_variation = figure_1.add_axes([0.5,0.75,0.1,0.1],anchor = "NW", zorder=1)
 newax_variation.imshow(variation_icon)
 newax_variation.axis("off")
-# plt.show()
 
+if df["target"].iloc[-1] > 0:
+    assurance_icon = plt.imread(assurance_icon)
+    newax_assurance =figure_1.add_axes([0.5,0.75,0.1,0.1],anchor="NE",zorder=1)
+    newax_assurance.imshow(assurance_icon)
+    newax_assurance.axis("off")
+    
 
 st.pyplot(figure_1, width = 1)
 
