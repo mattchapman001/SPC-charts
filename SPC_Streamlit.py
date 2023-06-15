@@ -410,18 +410,7 @@ else:
             ha="center", 
             va="center", 
             size=17)
-
-
-st.pyplot(figure_1, width = 1)
-
-csv_df = convert_df(df)
-
-st.download_button("Click here to download data extract", 
-                   data = csv_df, file_name = "Data_extract.csv",
-                   help = 
-                   "A .csv file of the data generated to create the chart")
-
-
+    
 #icons to show
 
 special_cause_improvement_high = False
@@ -468,40 +457,83 @@ else:
         
     if df["special_cause_ascending"].iloc[-1] == True:
         special_cause_concern_high = True
-        
+               
         
 if special_cause_improvement_high == True:
-    st.image(special_cause_improvement_high_icon)
-       
+    #st.image(special_cause_improvement_high_icon)
+    variation_icon = special_cause_improvement_high_icon
+           
 if special_cause_concern_low == True:
-    st.image(special_cause_concern_low_icon)
+    #st.image(special_cause_concern_low_icon)
+    variation_icon = special_cause_concern_low_icon
   
 if special_cause_improvement_low == True:
-    st.image(special_cause_improvement_low_icon)
+    #st.image(special_cause_improvement_low_icon)
+    variation_icon = special_cause_improvement_low_icon
     
 if special_cause_concern_high == True:
-    st.image(special_cause_concern_high_icon) 
+    #st.image(special_cause_concern_high_icon) 
+    variation_icon = special_cause_concern_high_icon
 
 #fail or pass target#
 
 if df["target"].iloc[-1] > df["lower_limit"].iloc[-1] \
     and df["target"].iloc[-1] < df["upper_limit"].iloc[-1]:
-    st.image(hit_or_miss_icon)
+    #st.image(hit_or_miss_icon)
+    assurance_icon = hit_or_miss_icon
+    
     
     
 if performance_improvement == True:
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
-        st.image(pass_target_icon)
+        #st.image(pass_target_icon)
+        assurance_icon = pass_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        st.image(fail_target_icon)              
+        st.image(fail_target_icon)
+        assurance_icon = fail_target_icon         
        
 
 if performance_improvement == False:
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
-        st.image(fail_target_icon)
+        #st.image(fail_target_icon)
+        assurance_icon = fail_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        st.image(pass_target_icon)
+        #st.image(pass_target_icon)
+        assurance_icon = pass_target_icon
         
+col1, col2 = st.columns(2)
+
+with col1:
+    st.image(variation_icon)
+
+with col2:
+    st.image(assurance_icon)
+
+assurance_icon = plt.imread(assurance_icon)
+variation_icon = plt.imread(variation_icon)
+
+#fig, ax=plt.subplots()
+#ax.plot(range(10))
+newax_assurance = figure_1.add_axes([0.5,0.75,0.1,0.1], anchor = "NE", zorder=1)
+newax_assurance.imshow(assurance_icon)
+newax_assurance.axis("off")
+newax_variation = figure_1.add_axes([0.5,0.75,0.1,0.1], anchor = "NW", zorder=1)
+newax_variation.imshow(variation_icon)
+newax_variation.axis("off")
+# plt.show()
+
+
+st.pyplot(figure_1, width = 1)
+
+csv_df = convert_df(df)
+
+st.download_button("Click here to download data extract", 
+                   data = csv_df, file_name = "Data_extract.csv",
+                   help = 
+                   "A .csv file of the data generated to create the chart")
+
+
+
         
