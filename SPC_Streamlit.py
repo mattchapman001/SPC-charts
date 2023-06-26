@@ -11,6 +11,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.ticker as mtick
 import seaborn as sns
+import urllib.request
+from PIL import Image
+
 
 def convert_df(df):
     return df.to_csv().encode("utf-8")
@@ -496,20 +499,22 @@ if performance_improvement == False:
         assurance_icon = pass_target_icon
      
 
-variation_icon = plt.imread(variation_icon)
+with urllib.request.urlopen(variation_icon) as url_obj:
+    variation_icon = np.array(Image.open(url_obj))
 
 newax_variation = figure_1.add_axes([0.5,0.75,0.1,0.1],anchor = "NW", zorder=1)
 newax_variation.imshow(variation_icon)
 newax_variation.axis("off")
 
 if df["target"].iloc[-1] > 0:
-    assurance_icon = plt.imread(assurance_icon)
+    with urllib.request.urlopen(assurance_icon) as url_obj:
+        assurance_icon = np.array(Image.open(url_obj))
     newax_assurance =figure_1.add_axes([0.5,0.75,0.1,0.1],anchor="NE",zorder=1)
     newax_assurance.imshow(assurance_icon)
     newax_assurance.axis("off")
     
 
-st.pyplot(figure_1, width = 1)
+st.pyplot(figure_1)
 
 csv_df = convert_df(df)
 
