@@ -45,15 +45,14 @@ special_cause_high_icon = "https://github.com/nhsengland/making-data-count/" \
     "blob/main/Icons/VariationIconNeitherHigh.png?raw=true"
 special_cause_low_icon = "https://github.com/nhsengland/making-data-count/" \
     "blob/main/Icons/VariationIconNeitherLow.png?raw=true"
-    
-# st.image(fail_target_icon, width = 50)
-# st.image(hit_or_miss_icon, width = 50)
-# st.image(pass_target_icon, width = 50)
-# st.image(common_cause_variation_icon, width = 50)
-# st.image(special_cause_concern_high_icon, width = 50)
-# st.image(special_cause_improvement_low_icon, width = 50)
-# st.image(special_cause_high_icon, width = 50)
-# st.image(special_cause_low_icon, width = 50)
+icon_empty = "https://github.com/nhsengland/making-data-count/" \
+    "blob/main/Icons/IconEmpty.png?raw=true"
+variation_neither_high = "https://github.com/nhsengland/making-data-count" \
+    "/blob/main/Icons/VariationIconNeitherHigh.png?raw=true"
+variation_neither_low =  "https://github.com/nhsengland/making-data-count" \
+    "/blob/main/Icons/VariationIconNeitherLow.png?raw=true"    
+
+
 
 st.title("SPC Chart Creator")
 
@@ -96,24 +95,6 @@ st.download_button("Click here to download a blank template",
 
 st.subheader("Drag and drop .csv file in correct format into the box below")
 
-#chart title code
-chart_title = st.sidebar.text_input("Chart title")
-
-data_format = st.sidebar.radio("Is the data a percentage?", ("Yes", "No"))
-
-performance_improvement = \
-    st.sidebar.radio("For this chart what does an improvement look like?",
-                                   ("An increasing value is an improvement",
-                                    "A decreasing value is an improvement"))
-
-y_axis_zero = st.sidebar.radio("Chart y-axis to start at zero?", ("Yes", "No"))
-
-if performance_improvement == "An increasing value is an improvement":
-    performance_improvement = True
-else:
-    performance_improvement = False
-
-
   
 uploaded_file = st.file_uploader("Upload CSV data")
 
@@ -123,15 +104,11 @@ if uploaded_file is not None:
 else:
     st.warning("No file has been uploaded")
     st.stop()
-   
-   
-#code to use header from .csv if not title has been added
-if chart_title != "":
-    chart_title = chart_title
-
-else:
-    chart_title = df.columns[1]
+ 
     
+st.subheader("Drag and drop .csv file in correct format into the box below")
+
+
 
 #overwrite column headers so rest of code will work if header were changed 
 #in the uploaded file
@@ -210,6 +187,41 @@ df["special_cause_decending"] = df["run_decending"].\
             max() >= trend_period
 
 
+#chart title code
+chart_title = st.sidebar.text_input("Chart title")
+
+percentage_guesser = 0
+
+if df.loc[:, "mean"].mean() > 1:
+    percentage_guesser = 1
+
+data_format = st.sidebar.radio("Is the data a percentage?", ("Yes", "No"),
+                               index = percentage_guesser)
+
+performance_improvement = \
+    st.sidebar.radio("For this chart what does an improvement look like?",
+                                   ("An increasing value is an improvement",
+                                    "A decreasing value is an improvement",
+                                    "There is no improvement direction"))
+
+y_axis_zero = st.sidebar.radio("Chart y-axis to start at zero?", ("Yes", "No"))
+
+if performance_improvement == "An increasing value is an improvement":
+    performance_improvement = "up"
+elif performance_improvement == "A decreasing value is an improvement":
+    performance_improvement = "down"
+else:
+    performance_improvement = "neither"
+    
+   
+#code to use header from .csv if not title has been added
+if chart_title != "":
+    chart_title = chart_title
+
+else:
+    chart_title = df.columns[1]
+    
+
 #Streamlit metrics
 
 if data_format == "No":
@@ -246,52 +258,73 @@ ax.plot(df["Month"], df["target"], ls="-", color = "red")
 
 
 #plotting points outside limits
-if performance_improvement == True:
+if performance_improvement == "up":
     ax.plot(df["Month"][df["below_lower"]], 
             df["plotdata"][df["below_lower"]], 
             marker="o", markersize=10, ls = "None", color = "orange")
     ax.plot(df["Month"][df["above_upper"]], 
             df["plotdata"][df["above_upper"]], 
             marker="o", markersize=10, ls = "None", color = "blue")
-elif performance_improvement == False:
+elif performance_improvement == "down":
     ax.plot(df["Month"][df["below_lower"]], 
             df["plotdata"][df["below_lower"]], 
             marker="o", markersize=10, ls = "None", color = "blue")
     ax.plot(df["Month"][df["above_upper"]], 
             df["plotdata"][df["above_upper"]], 
             marker="o", markersize=10, ls = "None", color = "orange")
+else:
+    ax.plot(df["Month"][df["below_lower"]], 
+            df["plotdata"][df["below_lower"]], 
+            marker="o", markersize=10, ls = "None", color = "purple")
+    ax.plot(df["Month"][df["above_upper"]], 
+            df["plotdata"][df["above_upper"]], 
+            marker="o", markersize=10, ls = "None", color = "purple")
 
 #plotting runs above and below mean
-if performance_improvement == True:
+if performance_improvement == "up":
     ax.plot(df["Month"][df["special_cause_run_above_mean"]],
             df["plotdata"][df["special_cause_run_above_mean"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
     ax.plot(df["Month"][df["special_cause_run_below_mean"]],
             df["plotdata"][df["special_cause_run_below_mean"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
-elif performance_improvement == False:
+elif performance_improvement == "down":
     ax.plot(df["Month"][df["special_cause_run_above_mean"]],
             df["plotdata"][df["special_cause_run_above_mean"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
     ax.plot(df["Month"][df["special_cause_run_below_mean"]],
             df["plotdata"][df["special_cause_run_below_mean"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
+else:
+    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
+            df["plotdata"][df["special_cause_run_above_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "purple")
+    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
+            df["plotdata"][df["special_cause_run_below_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "purple")
     
 #plotting runs ascending/decending
-if performance_improvement == True:
+if performance_improvement == "up":
     ax.plot(df["Month"][df["special_cause_ascending"]],
             df["plotdata"][df["special_cause_ascending"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
     ax.plot(df["Month"][df["special_cause_decending"]],
             df["plotdata"][df["special_cause_decending"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
-elif performance_improvement == False:
+elif performance_improvement == "down":
       ax.plot(df["Month"][df["special_cause_ascending"]],
             df["plotdata"][df["special_cause_ascending"]],
             marker= "o", markersize=10, ls = "None", color = "orange")
       ax.plot(df["Month"][df["special_cause_decending"]],
             df["plotdata"][df["special_cause_decending"]],
             marker= "o", markersize=10, ls = "None", color = "blue")
+else:
+    ax.plot(df["Month"][df["special_cause_ascending"]],
+          df["plotdata"][df["special_cause_ascending"]],
+          marker= "o", markersize=10, ls = "None", color = "purple")
+    ax.plot(df["Month"][df["special_cause_decending"]],
+          df["plotdata"][df["special_cause_decending"]],
+          marker= "o", markersize=10, ls = "None", color = "purple")
 
 #y axis formatted to percentage if needed
 
@@ -420,9 +453,12 @@ special_cause_improvement_high = False
 special_cause_concern_low = False
 special_cause_improvement_low = False
 special_cause_concern_high = False
+special_cause_neither_low = False
+special_cause_neither_high = False
 
 
-if performance_improvement == True:
+
+if performance_improvement == "up":
     
     if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
         special_cause_improvement_high = True
@@ -441,25 +477,45 @@ if performance_improvement == True:
         
     if df["special_cause_decending"].iloc[-1] == True:
         special_cause_concern_low = True
+        
+elif performance_improvement == "down":
+    if df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
+        special_cause_improvement_low = True
+        
+    if df["special_cause_run_below_mean"].iloc[-1] == True:
+        special_cause_improvement_low = True
+    
+    if df["special_cause_decending"].iloc[-1] == True:
+        special_cause_improvement_low = True
+        
+    if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
+        special_cause_concern_high = True
+        
+    if df["special_cause_run_above_mean"].iloc[-1] == True:
+        special_cause_concern_high = True
+        
+    if df["special_cause_ascending"].iloc[-1] == True:
+        special_cause_concern_high = True
         
 else:
     if df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
-        special_cause_improvement_low = True
+        special_cause_neither_low = True
         
     if df["special_cause_run_below_mean"].iloc[-1] == True:
-        special_cause_improvement_low = True
+        special_cause_neither_low = True
     
     if df["special_cause_decending"].iloc[-1] == True:
-        special_cause_improvement_low = True
+        special_cause_neither_low = True
         
     if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        special_cause_concern_high = True
+        special_cause_neither_high = True
         
     if df["special_cause_run_above_mean"].iloc[-1] == True:
-        special_cause_concern_high = True
+        special_cause_neither_high = True
         
     if df["special_cause_ascending"].iloc[-1] == True:
-        special_cause_concern_high = True
+        special_cause_neither_high = True
+    
    
 variation_icon = common_cause_variation_icon   
         
@@ -474,6 +530,12 @@ if special_cause_improvement_low == True:
     
 if special_cause_concern_high == True:
     variation_icon = special_cause_concern_high_icon
+    
+if special_cause_neither_high == True:
+    variation_icon = variation_neither_high
+    
+if special_cause_neither_low == True:
+    variation_icon = variation_neither_low
 
 #fail or pass target#
 
@@ -483,7 +545,7 @@ if df["target"].iloc[-1] > df["lower_limit"].iloc[-1] \
     
     
     
-if performance_improvement == True:
+if performance_improvement == "up":
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
         assurance_icon = pass_target_icon
     
@@ -491,7 +553,7 @@ if performance_improvement == True:
         assurance_icon = fail_target_icon         
        
 
-if performance_improvement == False:
+if performance_improvement == "down":
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
         assurance_icon = fail_target_icon
     
@@ -511,6 +573,12 @@ if df["target"].iloc[-1] > 0:
         assurance_icon = np.array(Image.open(url_obj))
     newax_assurance =figure_1.add_axes([0.5,0.75,0.1,0.1],anchor="NE",zorder=1)
     newax_assurance.imshow(assurance_icon)
+    newax_assurance.axis("off")
+else:
+    with urllib.request.urlopen(icon_empty) as url_obj:
+        icon_empty = np.array(Image.open(url_obj))
+    newax_assurance =figure_1.add_axes([0.5,0.75,0.1,0.1],anchor="NE",zorder=1)
+    newax_assurance.imshow(icon_empty)
     newax_assurance.axis("off")
     
 
