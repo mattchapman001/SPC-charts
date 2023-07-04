@@ -537,13 +537,11 @@ if special_cause_neither_high == True:
 if special_cause_neither_low == True:
     variation_icon = variation_neither_low
 
-#fail or pass target#
+#fail, pass or no target
 
 if df["target"].iloc[-1] > df["lower_limit"].iloc[-1] \
     and df["target"].iloc[-1] < df["upper_limit"].iloc[-1]:
-    assurance_icon = hit_or_miss_icon
-    
-    
+    assurance_icon = hit_or_miss_icon  
     
 if performance_improvement == "up":
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
@@ -552,13 +550,16 @@ if performance_improvement == "up":
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
         assurance_icon = fail_target_icon         
        
-
 if performance_improvement == "down":
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
         assurance_icon = fail_target_icon
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
         assurance_icon = pass_target_icon
+        
+if performance_improvement == "neither":
+    assurance_icon = icon_empty
+    
      
 
 with urllib.request.urlopen(variation_icon) as url_obj:
@@ -567,6 +568,7 @@ with urllib.request.urlopen(variation_icon) as url_obj:
 newax_variation = figure_1.add_axes([0.5,0.75,0.1,0.1],anchor = "NW", zorder=1)
 newax_variation.imshow(variation_icon)
 newax_variation.axis("off")
+
 
 if df["target"].iloc[-1] > 0:
     with urllib.request.urlopen(assurance_icon) as url_obj:
