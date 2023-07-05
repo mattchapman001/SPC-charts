@@ -106,9 +106,6 @@ else:
     st.stop()
  
     
-st.subheader("Drag and drop .csv file in correct format into the box below")
-
-
 
 #overwrite column headers so rest of code will work if header were changed 
 #in the uploaded file
@@ -245,16 +242,67 @@ else:
 
 figure_1, ax = plt.subplots()
 
-sns.set_theme()
-sns.set_context("paper")
+sns.set_theme(style = "ticks")
+#sns.set_context("paper")
+sns.despine()
+
+
 
 #plotting lines
 ax.plot(df["Month"], df["plotdata"], marker = "o", markersize = 10, 
-        color = "black", markerfacecolor = "grey", markeredgecolor = "grey")
-ax.plot(df["Month"], df["mean"], color = "grey")
-ax.plot(df["Month"], df["upper_limit"], ls=":", color = "black")
-ax.plot(df["Month"], df["lower_limit"], ls=":", color = "black")
-ax.plot(df["Month"], df["target"], ls="-", color = "red")
+        color = "#44546A", markerfacecolor = "grey", markeredgecolor = "grey",
+        linewidth = 4)
+ax.plot(df["Month"], df["mean"], color = "grey", linewidth = 2)
+ax.plot(df["Month"], df["upper_limit"], ls=":", color = "black", linewidth = 2)
+ax.plot(df["Month"], df["lower_limit"], ls=":", color = "black", linewidth = 2)
+ax.plot(df["Month"], df["target"], ls=":", color = "red", linewidth = 2)
+
+#plotting runs ascending/decending
+if performance_improvement == "up":
+    ax.plot(df["Month"][df["special_cause_ascending"]],
+            df["plotdata"][df["special_cause_ascending"]],
+            marker= "o", markersize=10, ls = "None", color = "blue")
+    ax.plot(df["Month"][df["special_cause_decending"]],
+            df["plotdata"][df["special_cause_decending"]],
+            marker= "o", markersize=10, ls = "None", color = "orange")
+elif performance_improvement == "down":
+      ax.plot(df["Month"][df["special_cause_ascending"]],
+            df["plotdata"][df["special_cause_ascending"]],
+            marker= "o", markersize=10, ls = "None", color = "orange")
+      ax.plot(df["Month"][df["special_cause_decending"]],
+            df["plotdata"][df["special_cause_decending"]],
+            marker= "o", markersize=10, ls = "None", color = "blue")
+else:
+    ax.plot(df["Month"][df["special_cause_ascending"]],
+          df["plotdata"][df["special_cause_ascending"]],
+          marker= "o", markersize=10, ls = "None", color = "purple")
+    ax.plot(df["Month"][df["special_cause_decending"]],
+          df["plotdata"][df["special_cause_decending"]],
+          marker= "o", markersize=10, ls = "None", color = "purple")
+
+
+#plotting runs above and below mean
+if performance_improvement == "up":
+    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
+            df["plotdata"][df["special_cause_run_above_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "blue")
+    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
+            df["plotdata"][df["special_cause_run_below_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "orange")
+elif performance_improvement == "down":
+    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
+            df["plotdata"][df["special_cause_run_above_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "orange")
+    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
+            df["plotdata"][df["special_cause_run_below_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "blue")
+else:
+    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
+            df["plotdata"][df["special_cause_run_above_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "purple")
+    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
+            df["plotdata"][df["special_cause_run_below_mean"]],
+            marker= "o", markersize=10, ls = "None", color = "purple")
 
 
 #plotting points outside limits
@@ -280,51 +328,9 @@ else:
             df["plotdata"][df["above_upper"]], 
             marker="o", markersize=10, ls = "None", color = "purple")
 
-#plotting runs above and below mean
-if performance_improvement == "up":
-    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
-            df["plotdata"][df["special_cause_run_above_mean"]],
-            marker= "o", markersize=10, ls = "None", color = "blue")
-    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
-            df["plotdata"][df["special_cause_run_below_mean"]],
-            marker= "o", markersize=10, ls = "None", color = "orange")
-elif performance_improvement == "down":
-    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
-            df["plotdata"][df["special_cause_run_above_mean"]],
-            marker= "o", markersize=10, ls = "None", color = "orange")
-    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
-            df["plotdata"][df["special_cause_run_below_mean"]],
-            marker= "o", markersize=10, ls = "None", color = "blue")
-else:
-    ax.plot(df["Month"][df["special_cause_run_above_mean"]],
-            df["plotdata"][df["special_cause_run_above_mean"]],
-            marker= "o", markersize=10, ls = "None", color = "purple")
-    ax.plot(df["Month"][df["special_cause_run_below_mean"]],
-            df["plotdata"][df["special_cause_run_below_mean"]],
-            marker= "o", markersize=10, ls = "None", color = "purple")
+
     
-#plotting runs ascending/decending
-if performance_improvement == "up":
-    ax.plot(df["Month"][df["special_cause_ascending"]],
-            df["plotdata"][df["special_cause_ascending"]],
-            marker= "o", markersize=10, ls = "None", color = "blue")
-    ax.plot(df["Month"][df["special_cause_decending"]],
-            df["plotdata"][df["special_cause_decending"]],
-            marker= "o", markersize=10, ls = "None", color = "orange")
-elif performance_improvement == "down":
-      ax.plot(df["Month"][df["special_cause_ascending"]],
-            df["plotdata"][df["special_cause_ascending"]],
-            marker= "o", markersize=10, ls = "None", color = "orange")
-      ax.plot(df["Month"][df["special_cause_decending"]],
-            df["plotdata"][df["special_cause_decending"]],
-            marker= "o", markersize=10, ls = "None", color = "blue")
-else:
-    ax.plot(df["Month"][df["special_cause_ascending"]],
-          df["plotdata"][df["special_cause_ascending"]],
-          marker= "o", markersize=10, ls = "None", color = "purple")
-    ax.plot(df["Month"][df["special_cause_decending"]],
-          df["plotdata"][df["special_cause_decending"]],
-          marker= "o", markersize=10, ls = "None", color = "purple")
+
 
 #y axis formatted to percentage if needed
 
@@ -349,52 +355,52 @@ figure_1.set_figheight(9)
 
 target = df["target"].iloc[-1]
 mean = df["mean"].iloc[-1]
-upper_limit = df["upper_limit"].iloc[-1]
-lower_limit = df["lower_limit"].iloc[-1]
+# #upper_limit = df["upper_limit"].iloc[-1]
+# lower_limit = df["lower_limit"].iloc[-1]
 
 
 
 if data_format == "No":
-    target_str = f"{target:.2f}"
-    upper_limit_str = f"{upper_limit:.2f}"
-    lower_limit_str = f"{lower_limit:.2f}"
-    mean_str = f"{mean:.2f}"
+    target_str = f"{target:.1f}"
+    # upper_limit_str = f"{upper_limit:.2f}"
+    # lower_limit_str = f"{lower_limit:.2f}"
+    mean_str = f"{mean:.1f}"
     
     ax.text(df["Month"].iloc[-2], 
             df["target"].iloc[-1], 
-            "Target= " + target_str, 
+            "Threshold= " + target_str, 
             ha="center", 
-            va="center", 
+            va="baseline", 
             size=17)
     
-    ax.text(df["Month"].iloc[-2],
-            df["upper_limit"].iloc[-1], 
-            "Upper process limit= " + upper_limit_str, 
+    ax.text(df["Month"].iloc[-len(df)+2],
+            df["upper_limit"].iloc[-len(df)], 
+            "Upper process limit" , 
             ha="center", 
-            va="center", 
+            va="baseline", 
             size=17)
     
     if y_axis_zero == "Yes" and df["lower_limit"].iloc[-1] > 0:
-        ax.text(df["Month"].iloc[-2], 
-                df["lower_limit"].iloc[-1], 
-                "Lower process limit= " + lower_limit_str, 
+        ax.text(df["Month"].iloc[-len(df)+2], 
+                df["lower_limit"].iloc[-len(df)], 
+                "Lower process limit", 
                 ha="center", 
-                va="center", 
+                va="baseline", 
                 size=17)
         
     elif y_axis_zero == "No":
-        ax.text(df["Month"].iloc[-2], 
-                df["lower_limit"].iloc[-1], 
-                "Lower process limit= " + lower_limit_str, 
+        ax.text(df["Month"].iloc[-len(df)+2], 
+                df["lower_limit"].iloc[-len(df)], 
+                "Lower process limit", 
                 ha="center", 
-                va="center", 
+                va="baseline", 
                 size=17)
     
     ax.text(df["Month"].iloc[-2], 
             df["mean"].iloc[-1], 
             "Mean= " + mean_str, 
             ha="center", 
-            va="center",
+            va="baseline",
             size=17)
     
 else:
@@ -414,37 +420,37 @@ else:
             df["target"].iloc[-1], 
             "Target= " + target_str + "%", 
             ha="center", 
-            va="center", 
+            va="baseline", 
             size=17)
     
-    ax.text(df["Month"].iloc[-2],
-            df["upper_limit"].iloc[-1], 
+    ax.text(df["Month"].iloc[-len(df)+2],
+            df["upper_limit"].iloc[-len(df)], 
             "Upper process limit= " + upper_limit_str + "%", 
             ha="center", 
-            va="center", 
+            va="baseline", 
             size=17)
     
     if y_axis_zero == "Yes" and df["lower_limit"].iloc[-1] > 0:
-        ax.text(df["Month"].iloc[-2], 
-                df["lower_limit"].iloc[-1], 
+        ax.text(df["Month"].iloc[-len(df)+2], 
+                df["lower_limit"].iloc[-len(df)], 
                 "Lower process limit= " + lower_limit_str + "%", 
                 ha="center", 
-                va="center", 
+                va="baseline", 
                 size=17)
         
     elif y_axis_zero == "No":
-        ax.text(df["Month"].iloc[-2], 
-                df["lower_limit"].iloc[-1], 
+        ax.text(df["Month"].iloc[-len(df)+2], 
+                df["lower_limit"].iloc[-len(df)], 
                 "Lower process limit= " + lower_limit_str + "%", 
                 ha="center", 
-                va="center", 
+                va="baseline", 
                 size=17)
         
     ax.text(df["Month"].iloc[-2], 
             df["mean"].iloc[-1], 
             "Mean= " + mean_str + "%", 
             ha="center", 
-            va="center", 
+            va="baseline", 
             size=17)
     
 #icons to show
@@ -463,38 +469,38 @@ if performance_improvement == "up":
     if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
         special_cause_improvement_high = True
         
-    if df["special_cause_run_above_mean"].iloc[-1] == True:
+    elif df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
+        special_cause_concern_low = True    
+        
+    elif df["special_cause_run_above_mean"].iloc[-1] == True:
         special_cause_improvement_high = True
     
-    if df["special_cause_ascending"].iloc[-1] == True:
+    elif df["special_cause_run_below_mean"].iloc[-1] == True:
+        special_cause_concern_low = True
+    
+    elif df["special_cause_ascending"].iloc[-1] == True:
         special_cause_improvement_high = True
-        
-    if df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
-        special_cause_concern_low = True
-        
-    if df["special_cause_run_below_mean"].iloc[-1] == True:
-        special_cause_concern_low = True
-        
-    if df["special_cause_decending"].iloc[-1] == True:
+       
+    elif df["special_cause_decending"].iloc[-1] == True:
         special_cause_concern_low = True
         
 elif performance_improvement == "down":
     if df["plotdata"].iloc[-1] < df["lower_limit"].iloc[-1]:
         special_cause_improvement_low = True
+    
+    elif df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
+        special_cause_concern_high = True
         
-    if df["special_cause_run_below_mean"].iloc[-1] == True:
+    elif df["special_cause_run_below_mean"].iloc[-1] == True:
         special_cause_improvement_low = True
     
-    if df["special_cause_decending"].iloc[-1] == True:
+    elif df["special_cause_run_above_mean"].iloc[-1] == True:
+        special_cause_concern_high = True
+    
+    elif df["special_cause_decending"].iloc[-1] == True:
         special_cause_improvement_low = True
-        
-    if df["plotdata"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        special_cause_concern_high = True
-        
-    if df["special_cause_run_above_mean"].iloc[-1] == True:
-        special_cause_concern_high = True
-        
-    if df["special_cause_ascending"].iloc[-1] == True:
+                
+    elif df["special_cause_ascending"].iloc[-1] == True:
         special_cause_concern_high = True
         
 else:
@@ -565,7 +571,8 @@ if performance_improvement == "neither":
 with urllib.request.urlopen(variation_icon) as url_obj:
     variation_icon = np.array(Image.open(url_obj))
 
-newax_variation = figure_1.add_axes([0.5,0.75,0.1,0.1],anchor = "NW", zorder=1)
+newax_variation = figure_1.add_axes([0.8,0.75,0.15,0.15],
+                                    anchor = "NE", zorder=1)
 newax_variation.imshow(variation_icon)
 newax_variation.axis("off")
 
@@ -573,18 +580,32 @@ newax_variation.axis("off")
 if df["target"].iloc[-1] > 0:
     with urllib.request.urlopen(assurance_icon) as url_obj:
         assurance_icon = np.array(Image.open(url_obj))
-    newax_assurance =figure_1.add_axes([0.5,0.75,0.1,0.1],anchor="NE",zorder=1)
+    newax_assurance =figure_1.add_axes([0.8,0.75,0.15,0.15],
+                                       anchor="NW",zorder=1)
     newax_assurance.imshow(assurance_icon)
     newax_assurance.axis("off")
 else:
     with urllib.request.urlopen(icon_empty) as url_obj:
         icon_empty = np.array(Image.open(url_obj))
-    newax_assurance =figure_1.add_axes([0.5,0.75,0.1,0.1],anchor="NE",zorder=1)
+    newax_assurance =figure_1.add_axes([0.8,0.75,0.15,0.15],
+                                       anchor="NW",zorder=1)
     newax_assurance.imshow(icon_empty)
     newax_assurance.axis("off")
     
 
+ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, 
+                   horizontalalignment = "right")
+
 st.pyplot(figure_1)
+
+df_to_display = df
+
+df_to_display = df_to_display.drop(["moving_range", "moving_range_average",
+                                    "run_above_mean", "run_below_mean", 
+                                    "run_ascending", "run_decending"], 
+                                   axis = 1)
+
+st.dataframe(df_to_display)
 
 csv_df = convert_df(df)
 
