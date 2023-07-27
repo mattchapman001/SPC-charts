@@ -186,6 +186,8 @@ df["special_cause_decending"] = df["run_decending"].\
 
 #chart title code
 chart_title = st.sidebar.text_input("Chart title")
+x_axis_title = st.sidebar.text_input("X axis title")
+y_axis_title = st.sidebar.text_input("Y axis title")
 
 percentage_guesser = 0
 
@@ -346,6 +348,8 @@ ax.tick_params(axis="x", labelrotation= 90)
 plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
 plt.title(chart_title, fontsize=25)
+plt.xlabel(x_axis_title, fontsize = 20)
+plt.ylabel(y_axis_title, fontsize = 20)
 plt.tight_layout()
 figure_1.set_figwidth(18)
 figure_1.set_figheight(9)
@@ -615,5 +619,6 @@ st.download_button("Click here to download data extract",
                    "A .csv file of the data generated to create the chart")
 
 
-
+st.write("[Code repository]" \
+         "(https://github.com/mattchapman001/SPC-charts)")
         
