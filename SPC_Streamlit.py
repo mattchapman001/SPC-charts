@@ -575,7 +575,7 @@ if performance_improvement == "neither":
 with urllib.request.urlopen(variation_icon) as url_obj:
     variation_icon = np.array(Image.open(url_obj))
 
-newax_variation = figure_1.add_axes([0.8,0.75,0.15,0.15],
+newax_variation = figure_1.add_axes([0.9,0.6,0.15,0.15],
                                     anchor = "NE", zorder=1)
 newax_variation.imshow(variation_icon)
 newax_variation.axis("off")
@@ -584,14 +584,14 @@ newax_variation.axis("off")
 if df["target"].iloc[-1] > 0:
     with urllib.request.urlopen(assurance_icon) as url_obj:
         assurance_icon = np.array(Image.open(url_obj))
-    newax_assurance =figure_1.add_axes([0.8,0.75,0.15,0.15],
-                                       anchor="NW",zorder=1)
+    newax_assurance =figure_1.add_axes([0.9,0.4,0.15,0.15],
+                                       anchor="NE",zorder=1)
     newax_assurance.imshow(assurance_icon)
     newax_assurance.axis("off")
 else:
     with urllib.request.urlopen(icon_empty) as url_obj:
         icon_empty = np.array(Image.open(url_obj))
-    newax_assurance =figure_1.add_axes([0.8,0.75,0.15,0.15],
+    newax_assurance =figure_1.add_axes([0.9,0.4,0.15,0.15],
                                        anchor="NW",zorder=1)
     newax_assurance.imshow(icon_empty)
     newax_assurance.axis("off")
