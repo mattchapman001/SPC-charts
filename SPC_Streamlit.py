@@ -105,7 +105,7 @@ else:
     st.warning("No file has been uploaded")
     st.stop()
  
-    
+df = st.data_editor(df, num_rows="dynamic")   
 
 #overwrite column headers so rest of code will work if header were changed 
 #in the uploaded file
@@ -182,6 +182,7 @@ df["special_cause_decending"] = df["run_decending"].\
     shift(1-trend_period).\
         rolling(trend_period, min_periods = 1).\
             max() >= trend_period
+ 
 
 
 #chart title code
@@ -585,7 +586,7 @@ if df["target"].iloc[-1] > 0:
     with urllib.request.urlopen(assurance_icon) as url_obj:
         assurance_icon = np.array(Image.open(url_obj))
     newax_assurance =figure_1.add_axes([0.95,0.4,0.15,0.15],
-                                       anchor="NE",zorder=1)
+                                       anchor="NW",zorder=1)
     newax_assurance.imshow(assurance_icon)
     newax_assurance.axis("off")
 else:
@@ -604,12 +605,9 @@ st.pyplot(figure_1)
 
 df_to_display = df
 
-df_to_display = df_to_display.drop(["moving_range", "moving_range_average",
-                                    "run_above_mean", "run_below_mean", 
-                                    "run_ascending", "run_decending"], 
-                                   axis = 1)
 
-st.dataframe(df_to_display)
+
+#st.dataframe(df_to_display)
 
 csv_df = convert_df(df)
 
