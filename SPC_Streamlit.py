@@ -222,22 +222,7 @@ else:
     chart_title = df.columns[1]
     
 
-#Streamlit metrics
 
-if data_format == "No":
-
-    col1, col2, col3 = st.columns(3)
-    
-    col1.metric("Mean", df["mean"].iloc[-1].round(2))
-    col2.metric("Upper limit", df["upper_limit"].iloc[-1].round(2))
-    col3.metric("Lower limit", df["lower_limit"].iloc[-1].round(2))
-    
-else:
-    col1, col2, col3 = st.columns(3)
-    
-    col1.metric("Mean (%)", ((df["mean"].iloc[-1])*100).round(2))
-    col2.metric("Upper limit (%)", ((df["upper_limit"].iloc[-1])*100).round(2))
-    col3.metric("Lower limit (%)", ((df["lower_limit"].iloc[-1])*100).round(2))
 
 
 ## GRAPH ##
@@ -528,48 +513,62 @@ else:
         special_cause_neither_high = True
     
    
-variation_icon = common_cause_variation_icon   
+variation_icon = common_cause_variation_icon
+text_description_variation = "the metric is showing no significant change from previous performance"   
         
 if special_cause_improvement_high == True:
     variation_icon = special_cause_improvement_high_icon
+    text_description_variation = "there is special cause improvement in a positive direction"
            
 if special_cause_concern_low == True:
     variation_icon = special_cause_concern_low_icon
+    text_description_variation = "there is special cause improvement in a negative direction"
   
 if special_cause_improvement_low == True:
     variation_icon = special_cause_improvement_low_icon
+    text_description_variation = "there is special cause improvement in a positive direction"
     
 if special_cause_concern_high == True:
     variation_icon = special_cause_concern_high_icon
+    text_description_variation = "there is special cause improvement in a negative direction"
     
 if special_cause_neither_high == True:
     variation_icon = variation_neither_high
+    text_description_variation = "the metric value is going up a significant amount"
     
 if special_cause_neither_low == True:
     variation_icon = variation_neither_low
+    text_description_variation = "the metric value is going down a significant amount"
+    
 
 #fail, pass or no target
 
 if df["target"].iloc[-1] > df["lower_limit"].iloc[-1] \
     and df["target"].iloc[-1] < df["upper_limit"].iloc[-1]:
-    assurance_icon = hit_or_miss_icon  
+    assurance_icon = hit_or_miss_icon
+    text_description_assurance = "it is uncertain if the target will be met"
     
 if performance_improvement == "up":
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
         assurance_icon = pass_target_icon
+        text_description_assurance = "the target is almost certain to be met"
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
-        assurance_icon = fail_target_icon         
+        assurance_icon = fail_target_icon
+        text_description_assurance = "the target is almost certain to be missed"         
        
 if performance_improvement == "down":
     if df["target"].iloc[-1] < df["lower_limit"].iloc[-1]:
         assurance_icon = fail_target_icon
+        text_description_assurance = "the target is almost certain to be missed"
     
     elif df["target"].iloc[-1] > df["upper_limit"].iloc[-1]:
         assurance_icon = pass_target_icon
+        text_description_assurance = "the target is almost certain to be met"
         
 if performance_improvement == "neither":
     assurance_icon = icon_empty
+    text_description_assurance = ""
     
      
 
@@ -601,10 +600,35 @@ else:
 ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, 
                    horizontalalignment = "right")
 
-st.pyplot(figure_1)
+
+# st.write(text_description_assurance)
+# st.write(text_description_variation)
+
+st.subheader("Chart summary")
+
+st.write(f"From the data {text_description_assurance} and the recent trend in the data suggests that {text_description_variation}")
+
+
+#Streamlit metrics
+
+if data_format == "No":
+
+    col1, col2, col3 = st.columns(3)
+    
+    col1.metric("Mean", df["mean"].iloc[-1].round(2))
+    col2.metric("Upper limit", df["upper_limit"].iloc[-1].round(2))
+    col3.metric("Lower limit", df["lower_limit"].iloc[-1].round(2))
+    
+else:
+    col1, col2, col3 = st.columns(3)
+    
+    col1.metric("Mean (%)", ((df["mean"].iloc[-1])*100).round(2))
+    col2.metric("Upper limit (%)", ((df["upper_limit"].iloc[-1])*100).round(2))
+    col3.metric("Lower limit (%)", ((df["lower_limit"].iloc[-1])*100).round(2))
 
 df_to_display = df
 
+st.pyplot(figure_1)
 
 
 #st.dataframe(df_to_display)
